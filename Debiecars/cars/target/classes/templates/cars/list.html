@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car List - Car Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-violet: #8B5CF6;
+            --dark-violet: #6D28D9;
+            --light-violet: #A78BFA;
+            --black: #1F2937;
+            --dark-gray: #374151;
+            --light-gray: #F3F4F6;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 50%, var(--primary-violet) 100%);
+            min-height: 100vh;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(139, 92, 246, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .navbar-brand {
+            color: var(--primary-violet) !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--light-violet) !important;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+        }
+
+        .card-header {
+            background: rgba(139, 92, 246, 0.2);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-violet), var(--dark-violet));
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(45deg, var(--dark-violet), var(--primary-violet));
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #EF4444, #DC2626);
+            border: none;
+            border-radius: 10px;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #10B981, #059669);
+            border: none;
+            border-radius: 10px;
+        }
+
+        .table {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th {
+            background: rgba(139, 92, 246, 0.3);
+            border: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table td {
+            border-color: rgba(139, 92, 246, 0.2);
+            vertical-align: middle;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .badge {
+            border-radius: 20px;
+            padding: 0.5em 1em;
+        }
+
+        .badge.bg-primary {
+            background: var(--primary-violet) !important;
+        }
+
+        .badge.bg-success {
+            background: #10B981 !important;
+        }
+
+        .badge.bg-warning {
+            background: #F59E0B !important;
+        }
+
+        .badge.bg-info {
+            background: #3B82F6 !important;
+        }
+
+        .floating-action {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .floating-action .btn {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/cars">
+            <i class="fas fa-car me-2"></i>Car Management System
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/cars">
+                        <i class="fas fa-list me-1"></i>All Cars
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cars/new">
+                        <i class="fas fa-plus me-1"></i>Add Car
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cars/export">
+                        <i class="fas fa-download me-1"></i>Export CSV
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-4">
+    <!-- Success/Error Messages -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">
+                <i class="fas fa-car me-2"></i>Car Inventory
+            </h3>
+            <div>
+                <span class="badge bg-primary me-2" th:text="'Total: ' + ${cars.size()}">Total: 0</span>
+                <a href="/cars/export" class="btn btn-success btn-sm">
+                    <i class="fas fa-download me-1"></i>Export CSV
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div th:if="${cars.empty}" class="text-center py-5">
+                <i class="fas fa-car fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No cars found</h4>
+                <p class="text-muted">Start by adding your first car to the inventory.</p>
+                <a href="/cars/new" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i>Add First Car
+                </a>
+            </div>
+
+            <div th:unless="${cars.empty}" class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>License Plate</th>
+                        <th>Make & Model</th>
+                        <th>Year</th>
+                        <th>Color</th>
+                        <th>Body Type</th>
+                        <th>Engine</th>
+                        <th>Transmission</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="car : ${cars}">
+                        <td>
+                            <span class="badge bg-primary" th:text="${car.carId}">1</span>
+                        </td>
+                        <td>
+                            <strong th:text="${car.licensePlateNumber}">ABC-123</strong>
+                        </td>
+                        <td>
+                            <div>
+                                <strong th:text="${car.make}">Toyota</strong>
+                                <br>
+                                <small class="text-muted" th:text="${car.model}">Corolla</small>
+                            </div>
+                        </td>
+                        <td th:text="${car.year}">2021</td>
+                        <td>
+                            <span class="badge bg-info" th:text="${car.color}">Blue</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-warning" th:text="${car.bodyType.displayName}">Sedan</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success" th:text="${car.engineType.displayName}">Gasoline</span>
+                        </td>
+                        <td th:text="${car.transmission.displayName}">Automatic</td>
+                        <td>
+                            <a th:href="@{'/cars/' + ${car.carId} + '/delete'}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Are you sure you want to delete this car?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Action Button -->
+<div class="floating-action">
+    <a href="/cars/new" class="btn btn-primary" title="Add New Car">
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
