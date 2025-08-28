@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Edit Car</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a1a, #3d0066);
+            color: #eaeaea;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-container {
+            background: #2a003f;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #d4b5ff;
+        }
+        label {
+            font-weight: bold;
+            margin: 10px 0 5px;
+            display: block;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #3d0066;
+            color: #fff;
+        }
+        input:focus {
+            outline: none;
+            background: #4a148c;
+        }
+        button {
+            background: #6a00f4;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+        button:hover {
+            background: #9d4edd;
+        }
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            color: #d4b5ff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>✏️ Edit Car</h2>
+    <form th:action="@{/update}" th:object="${car}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <label>Make</label>
+        <input type="text" th:field="*{make}" required>
+
+        <label>Model</label>
+        <input type="text" th:field="*{model}" required>
+
+        <label>Year</label>
+        <input type="number" th:field="*{year}" required>
+
+        <label>Color</label>
+        <input type="text" th:field="*{color}" required>
+
+        <label>Body Type</label>
+        <input type="text" th:field="*{bodyType}">
+
+        <label>Engine Type</label>
+        <input type="text" th:field="*{engineType}">
+
+        <label>License Plate</label>
+        <input type="text" th:field="*{licensePlate}">
+
+        <button type="submit">Update Car</button>
+    </form>
+    <a class="back-link" th:href="@{/}">⬅ Back to List</a>
+</div>
+</body>
+</html>
