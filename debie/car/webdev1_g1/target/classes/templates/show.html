@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|${car.make} ${car.model}|">Car Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<h1>Car Details</h1>
+<ul>
+    <li>Make: <span th:text="${car.make}">Toyota</span></li>
+    <li>Model: <span th:text="${car.model}">Camry</span></li>
+    <li>Year: <span th:text="${car.year}">2023</span></li>
+    <li th:if="${car.color}">Color: <span th:text="${car.color}"></span></li>
+    <li th:if="${car.bodyType}">Body: <span th:text="${car.bodyType}"></span></li>
+    <li th:if="${car.engineType}">Engine: <span th:text="${car.engineType}"></span></li>
+    <li th:if="${car.licensePlate}">License Plate: <span th:text="${car.licensePlate}"></span></li>
+</ul>
+<a th:href="@{/}" class="btn">Back to Home</a>
+</body>
+</html>
+

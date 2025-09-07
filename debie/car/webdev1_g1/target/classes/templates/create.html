@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Car</title>
+    <style>
+        body {
+            background-color: #1a1a1d;
+            color: #f3e8ff;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: #2c2c34;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.5);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #c084fc;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            background: #3a3a44;
+            color: #f3e8ff;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            background: #4b4b57;
+            box-shadow: 0 0 8px #a855f7;
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: -5px;
+            margin-bottom: 8px;
+            text-align: left;
+            padding-left: 5%;
+        }
+
+        button {
+            background: linear-gradient(135deg, #7e22ce, #9333ea);
+            color: white;
+            padding: 12px 20px;
+            margin: 10px 5px 0 5px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #9333ea, #a855f7);
+            transform: scale(1.05);
+        }
+
+        .cancel-btn {
+            background: #4b4b57;
+            color: #f3e8ff;
+        }
+
+        .cancel-btn:hover {
+            background: #6b7280;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Add New Car</h1>
+    <form th:action="@{/save}" method="post" th:object="${car}">
+        <input type="text" th:field="*{make}" placeholder="Make" required>
+        <p class="error" th:if="${#fields.hasErrors('make')}" th:errors="*{make}"></p>
+
+        <input type="text" th:field="*{model}" placeholder="Model" required>
+        <p class="error" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></p>
+
+        <input type="number" th:field="*{year}" placeholder="Year" required>
+        <p class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
+
+        <input type="text" th:field="*{color}" placeholder="Color" required>
+        <p class="error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></p>
+
+
+        <input type="text" th:field="*{engineType}" placeholder="Engine Type" required>
+        <p class="error" th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}"></p>
+
+        <input type="text" th:field="*{licensePlate}" placeholder="License Plate" required>
+        <p class="error" th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}"></p>
+
+        <button type="submit">Save</button>
+        <a th:href="@{/}">
+            <button type="button" class="cancel-btn">Cancel</button>
+        </a>
+    </form>
+</div>
+</body>
+</html>
+
+
+
