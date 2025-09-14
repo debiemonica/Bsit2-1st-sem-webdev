@@ -54,16 +54,16 @@ public class HomeController {
         return "show";
     }
 
-    // 🔹 Edit car form
+    // Edit car form
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model) {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Car not found with id: " + id));
         model.addAttribute("car", car);
-        return "edit"; // looks for edit.html
+        return "edit";
     }
 
-    // 🔹 Update car (after editing)
+    // Update car
     @PostMapping("/update/{id}")
     public String update(@PathVariable("id") int id,
                          @Valid @ModelAttribute("car") Car car,
@@ -71,14 +71,12 @@ public class HomeController {
         if (result.hasErrors()) {
             return "edit";
         }
-
-        // make sure the ID is preserved
-        car.setId(id);
+        car.setId(id); // preserve ID
         carRepository.save(car);
         return "redirect:/";
     }
 
-    // 🔹 Delete car
+    // Delete car
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id) {
         Car car = carRepository.findById(id)
