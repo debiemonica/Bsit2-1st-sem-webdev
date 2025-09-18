@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Form</title>
+    <style>
+        body {
+            background-color: #1a1a1d;
+            color: #f3e8ff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4c1d95;
+            padding: 15px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #e9d5ff;
+        }
+        nav {
+            margin: 20px;
+            text-align: center;
+        }
+        nav a {
+            color: #c084fc;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #a855f7;
+        }
+        form {
+            width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #2d2d32;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #6d28d9;
+            background-color: #1f1f23;
+            color: #f3e8ff;
+        }
+        .error {
+            color: #f87171;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #9333ea;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #7e22ce;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 th:text="${employee.id == null} ? 'Add Employee' : 'Edit Employee'"></h1>
+</header>
+
+<nav>
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/employees}">Employee List</a>
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+
+<main>
+    <form th:action="@{${employee.id == null} ? '/employees' : '/employees/update/' + ${employee.id}}"
+          th:object="${employee}" method="post">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" required>
+        <div th:if="${#fields.hasErrors('name')}" class="error"
+             th:errors="*{name}"></div>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required>
+        <div th:if="${#fields.hasErrors('email')}" class="error"
+             th:errors="*{email}"></div>
+
+        <button type="submit" th:text="${employee.id == null} ? 'Create' : 'Update'"></button>
+    </form>
+</main>
+</body>
+</html>
+

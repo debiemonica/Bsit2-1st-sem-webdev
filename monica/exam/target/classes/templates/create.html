@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Employee</title>
+    <style>
+        body{background:#1a1a1d;color:#f3e8ff;font-family:Arial}
+        form{max-width:420px;margin:40px auto;padding:20px;background:#2d1b4a;border-radius:10px}
+        label{display:block;margin-top:8px;font-weight:bold}
+        input{width:100%;padding:8px;margin-top:6px;border-radius:6px;border:none}
+        button{margin-top:16px;padding:10px;background:#9333ea;color:#fff;border:none;border-radius:6px}
+    </style>
+</head>
+<body>
+<h1 style="text-align:center;color:#e9d5ff">Create Employee</h1>
+
+<form th:action="@{/employees}" th:object="${employee}" method="post">
+    <label>Name</label>
+    <input type="text" th:field="*{name}" placeholder="Enter name" required />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:#ff6b6b"></div>
+
+    <label>Email</label>
+    <input type="email" th:field="*{email}" placeholder="Enter email" required />
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:#ff6b6b"></div>
+
+    <button type="submit">Save</button>
+</form>
+
+<div style="text-align:center;margin-top:10px">
+    <a th:href="@{/}" style="color:#c084fc">Back to Home</a>
+</div>
+</body>
+</html>
